@@ -95,7 +95,6 @@ To reproduce the principal results, an independent user should therefore:
 ## Citing
 If you use this tool please cite:
 
-Zhang, W., Jiménez-Munt, I., Negredo, A. M., García-Castellanos, D., Ortega Gelabert, O., Vergés, J., Sharma, M., & Torné, M. (2026).  
-*LitModDyn: Quantifying dynamic topography induced by slab–mantle interaction beneath the Adria microplate*. *Frontiers in Earth Science*. **(in revision)**
+Zhang, W., Jiménez-Munt, I., Negredo, A. M., García-Castellanos, D., Ortega Gelabert, O., Vergés, J., Sharma, M., & Torné, M. (2026). *LitModDyn: Quantifying dynamic topography induced by slab–mantle interaction beneath the Adria microplate*. *Frontiers in Earth Science*. **(in revision)**
 
 
