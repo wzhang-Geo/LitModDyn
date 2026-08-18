@@ -11,8 +11,6 @@ import numpy as np
 from scipy.interpolate import griddata
 from scipy.io import savemat
 
-# 注意这里必须是规则网格下的方法
-# size表示有效粒子的最大距离，不能超过1 (一个网格大小)
 def marker2cell(MX,MY,MI,xi,size):
     if size>1:
         raise ValueError("!!! The size is too big." )

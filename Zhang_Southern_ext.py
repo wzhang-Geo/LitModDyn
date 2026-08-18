@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # """
-# Created on Thu Jun 17 18:14:31 2021
-# 对代码进行了简化 - 2023-08-24
-
 # @author: wzhang
 # """
 
@@ -15,22 +11,44 @@ from scipy.interpolate import griddata
 import main_lit
 
 
-# This is northern transect from Zhang et al., (2024) JGR
+# This is southern transect from Zhang et al., (2024) JGR
 
-print("    Model initialization...")
-print("    This is examples from Zhang et al., (2024)")
+print("\n" + "-" * 60)
+print("Reference model selected:")
+print("  Zhang et al. (2022), JGR Solid Earth")
+print("-" * 60)
+
+print("\nInitializing model...\n")
+
+print("Computational domain:")
+
 Thickness_Air = 20*1000.0
 Thickness_bottom = 200*1000.0
 Thickness_l = 202.5*1000.0
-print('    The thickness of sticky air:', Thickness_Air/1000, ' km')
-print('    The thickness of bottom layer:', Thickness_bottom/1000, ' km')
-print('    The thickness of each side layers:', Thickness_l/1000, ' km')
+print('    The thickness of Sticky-air layer:', Thickness_Air/1000, ' km')
+print('    Bottom extension           :', Thickness_bottom/1000, ' km')
+print('    Left-side extension        :', Thickness_l/1000, ' km')
+print('    Right-side extension       :', Thickness_l/1000, ' km')
 
 g=9.8              # Acceleration of Gravity, m/s^2
 
-# file_in = '/home/wzhang/ownCloud/Zhang_et_al/SourthernPro/2023-05-31_15:24:47_Model_F_13_b11'
-file_in = '/home/wzhang/ownCloud/Zhang_et_al/SourthernPro/2023-05-31_15:24:47_Model_F_13_b11/NoSlab'
-# file_in = '/home/wzhang/ownCloud/Zhang_et_al/SourthernPro/2023-05-31_15:24:47_Model_F_13_b11/2023-09-28_07:31:52_attached_mantle_Adria_anom'
+print("\n    Select a simulation case:")
+print("        1 - Best_Model")
+print("        2 - Best_Model but No_Slabs")
+
+choice = int(input("Enter your choice [1-2]: "))
+
+if choice == 1:
+    file_in = 'input/Zhang_etal_2024_SouthPro/Best_Model'
+
+elif choice == 2:
+    file_in = 'input/Zhang_etal_2024_SouthPro/Best_Model_No_Slabs'
+
+else:
+    raise ValueError("    Invalid choice! Please enter a right number")
+
+print('    The path of model is :', file_in)
+
 print(file_in)
 measured_topo = np.loadtxt(file_in + '/0Topo.dat')
 measured_topo[:,0] = measured_topo[:,0] + Thickness_l/1000 # unit, km
@@ -55,8 +73,8 @@ ysize = ysize_Lit
 
 
 # Defining resolution
-xres = 2e3
-yres = 2e3
+xres = 4e3
+yres = 4e3
 xnum = int(xsize/xres)+1
 ynum = int(ysize/yres)+1
 

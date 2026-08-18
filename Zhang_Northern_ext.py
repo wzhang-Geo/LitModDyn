@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # """
-# Created on Thu Jun 17 18:14:31 2021
-# 对代码进行了简化 - 2023-08-24
-
 # @author: wzhang
 # """
 
@@ -17,22 +13,41 @@ import main_lit
 
 # This is northern transect from Zhang et al., (2022) JGR
 
-print("    Model initialization...")
-print("    This is examples from Zhang et al., (2022)")
+print("\n" + "-" * 60)
+print("Reference model selected:")
+print("  Zhang et al. (2022), JGR Solid Earth")
+print("-" * 60)
+
+print("\nInitializing model...\n")
+
+print("Computational domain:")
+
 Thickness_Air = 20*1000.0
 Thickness_bottom = 200*1000.0
 Thickness_l = 200*1000.0
-print('    The thickness of sticky air:', Thickness_Air/1000, ' km')
-print('    The thickness of bottom layer:', Thickness_bottom/1000, ' km')
-print('    The thickness of each side layers:', Thickness_l/1000, ' km')
+print('    The thickness of Sticky-air layer:', Thickness_Air/1000, ' km')
+print('    Bottom extension           :', Thickness_bottom/1000, ' km')
+print('    Left-side extension        :', Thickness_l/1000, ' km')
+print('    Right-side extension       :', Thickness_l/1000, ' km')
 
 g=9.8              # Acceleration of Gravity, m/s^2
 
-# file_in = '/home/wzhang/ownCloud/PhD_Fig/NorProfile_Fig/2021-12-13_V_F02_5/New09_T2_BestModel/Best_Model'
+print("\n    Select a simulation case:")
+print("        1 - Best_Model")
+print("        2 - Best_Model but No_Slabs")
 
-file_in = '/home/wzhang/ownCloud/PhD_Fig/NorProfile_Fig/2021-12-13_V_F02_5/New09_T2_BestModel/Case2_No_Slabs'
-print(file_in)
+choice = int(input("Enter your choice [1-2]: "))
 
+if choice == 1:
+    file_in = 'input/Zhang_etal_2022_NorthPro/Best_Model'
+
+elif choice == 2:
+    file_in = 'input/Zhang_etal_2022_NorthPro/Best_Model_No_Slabs'
+
+else:
+    raise ValueError("    Invalid choice! Please enter a right number")
+
+print('    The path of model is :', file_in)
 
 measured_topo = np.loadtxt(file_in + '/0Topo.dat')
 measured_topo[:,0] = measured_topo[:,0] + Thickness_l/1000 # unit, km
@@ -187,60 +202,3 @@ plt.plot(MX[0,:]/1000,-measured_topo_interp / 1000, 'r-',label='Elevation by int
 # ax.plot(MX[:, iM_Px2], MY[:, iM_Px2], line_style_Px2)
 # ax.plot(MX[:, iM_Px3], MY[:, iM_Px3], line_style_Px3)
 # subfig_quiver(MX, MY, MVX, -MVY, 20, 50)
-
-
-#########################################
-# META=np.ones((mynum,mxnum))*1.0e21 # All viscosity
-
-# for xm in range(mxnum):
-#     for ym in range(mynum):
-#         if MY[ym,xm]<0 - measured_topo_interp[xm]:	     # stick air
-#             MI[ym,xm] = -10
-#             MRHO[ym,xm] = 1000
-#             MTK[ym,xm] = 0            
-#             META[ym,xm] = 1.0e18  
-#         elif MI[ym,xm]<11:
-#             META[ym,xm] = 1.0e21    # sediment & crust
-#         elif MI[ym,xm]<99:
-#             META[ym,xm] = 1.0e22    # lithosphere mantle
-#         else:
-#             # META[ym,xm] = 1.0e19 # mantle
-#             META[ym,xm] = 1.0e22 # mantle
-#             # META[ym,xm] = main_lit.GetETA(MTK[ym,xm],MPR_LitMod[ym,xm],MEII[ym,xm])
-
-# =============================================================================
-# #%% Method I: scipy.interpolate.griddata 基于地幔组分识别区域
-# # nearest 结果可以插值但是板片与岩石圈地幔有间隔，linear插值出现Nan
-# 
-# LitModXY = np.column_stack((data[:, 0], -1 * data[:, 1])) * 1000
-# 
-# Method = 'nearest'
-# # Method = 'linear'
-# MI = griddata(LitModXY, data[:, 7], (MX, MY), method=Method)
-# # MI[0:3,:] = griddata(LitModXY, data[:, 7], (MX[0:3,:], MY[0:3,:]), method='nearest')
-# 
-# MRHO = griddata(LitModXY, data[:, 6], (MX, MY), method=Method)
-# # MRHO[0:3,:] = griddata(LitModXY, data[:, 6], (MX[0:3,:], MY[0:3,:]), method='nearest')
-# 
-# MTK = griddata(LitModXY, data[:, 2], (MX, MY), method=Method)
-# # MTK[0:3,:] = griddata(LitModXY, data[:, 2], (MX[0:3,:], MY[0:3,:]), method='nearest')
-# 
-# MPR_LitMod = griddata(LitModXY, data[:, 3], (MX, MY), method=Method)
-# # MPR_LitMod[0:3,:] = griddata(LitModXY, data[:, 3], (MX[0:3,:], MY[0:3,:]), method='nearest')
-# 
-# # META=np.ones((mynum,mxnum)) * 1.0e+21
-# 
-# for xm in range(mxnum):
-#     for ym in range(mynum):
-#         if MI[ym,xm]<0:     # stick air
-#             META[ym,xm] = 1.0e18   # stick air
-#         elif MI[ym,xm]<11:
-#             META[ym,xm] = 1.0e21    # sediment & crust
-#         elif MI[ym,xm]<99:
-#             META[ym,xm] = 1.0e22    # lithosphere mantle
-#             
-#         else:
-#             META[ym,xm] = 1.0e19 # mantle
-#             # META[ym,xm] = main_lit.GetETA(MTK[ym,xm],MPR_LitMod[ym,xm],MEII[ym,xm])
-# =============================================================================
-        

@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # """
-# Created on Thu Jun 17 18:14:31 2021
-# V4.0 对代码进行了简化 + 修改了MIC 插值函数 - 2023-08-24
-
 # @author: wzhang
+# @email: zhangwentaoucas@gmail.com
 # """
 #%%
 from __future__ import division # Changing the Division Operator
@@ -16,37 +13,48 @@ from datetime import datetime
 
 # import Solver_multigrid as Solver
 import Solver as Solver
+import main_lit
 # from main_lit import BC, model_set, model_extending_set,GetETA,BC_extending #, round_up
 
+
+print("=" * 60)
+print("                     LitModDyn")
+print("     Quantifying dynamic topography and mantle flow modelling")
+print("=" * 60)
+print()
+
 starttime = datetime.now()
-print(f'Start time:  {starttime}')
-
-
-
+print(f"  Start time: {starttime:%Y-%m-%d %H:%M:%S}")
+print()
 prfirst=0.0         # Pressure in the upermost, leftmost (first) cell
 bleft, bright, btop, bbottom=1, 1, 1, 1     # [1=free slip -1=no slip ] are implemented from ghost nodes
 
 #%% Model initialization
-# from Ex_falling_block import *     # This is examples from Gerya. (2019)
-# savename = 'Sinking_Clinder_Free_Slip_'
+print("Please select a reference model:\n")
+print("  [1] Zhang et al. (2022), JGR Solid Earth")
+print("  [2] Zhang et al. (2024), JGR Solid Earth")
+print()
 
 
-# from Ex_falling_block_Ana import *   
-# savename = 'Sinking_Clinder_Free_Slip_Ana_'
+choice = int(input("Enter your choice [1-2]: "))
+# choice = 1
+print(choice)
+if choice == 1:
+    from Zhang_Northern_ext import *
+    savename = 'N_ext_'
 
-# from Zhang_Northern import * 
-# savename = 'Zhang_Northern_a'
+elif choice == 2:
+    from Zhang_Southern_ext import *
+    savename = 'S_ext_'
+
+# elif choice == 3:
+#     from Calabria_ext import *
+#     savename = 'Calabria_Ext_'
+
+else:
+    raise ValueError("Invalid choice! Please enter a right number")
 
 
-# from Zhang_Southern import * 
-# savename = 'Zhang_Southern_20240317'
-
-
-from Zhang_Northern_ext import * 
-savename = 'N_Ext_'
-
-# from Zhang_Southern_ext import * 
-# savename = 'S_ext_'
 
 print('The name of save file:  ' + savename)
 
@@ -89,45 +97,47 @@ MPR=np.zeros((mynum,mxnum))   # Pressure, Pa
 
 # MEII=np.ones((mynum,mxnum))   # EPSILONyy - shear strain rate, 1/s
 
-#%%
-stepmax=5
+#%%  Modelling Viscisoty setting
+stepmax=10
+
+Density_Sticky_Air = 1000.0
+ETA_Sticky_Air = 1.0e18 
+ETA_Crust = 1.0e21 
+ETA_Lit_Mantle = 1.0e22
+Rheology_Sub_Mantle = 'NE20_Wet'
+
+print("\n" + "-" * 60)
+print(' The parameters for each layer...')
+print('    Density of Sticky_Air      : ', Density_Sticky_Air)
+print('    Viscisoty of Sticky_Air    : ', ETA_Sticky_Air)
+print('    Viscisoty of Sed and Crust : ', ETA_Crust)
+print('    Viscosity of Lit_Mantle    : ', ETA_Lit_Mantle)
+print('    Rheology parameters for Sub mantle: ', Rheology_Sub_Mantle)
+print('\n')
+
 for ntimestep in range(stepmax):
-    
-    
     ######### <<<<< META  
     MEII0 = MEII.copy()
-    Rheology = 'NE20_Wet'
-    print('Rheology parameters: ', Rheology)
+    
     if ntimestep > -1:
-        import main_lit
         print('ntimestep is ', ntimestep)
         for xm in range(mxnum):
             for ym in range(mynum):
-                if MI[ym,xm]<0:	     # sticky air
+                if MI[ym,xm]<0:	     # sticky air (<0)
                     # MI[ym,xm] = -10
-                    MRHO[ym,xm] =1000 # 1000
+                    MRHO[ym,xm] = Density_Sticky_Air # 1000
                     MTK[ym,xm] = 0            
-                    META[ym,xm] = 1.0e18  
-                elif MI[ym,xm]<11:    # sediment & crust
-                    META[ym,xm] = 1.0e23
-                elif MI[ym,xm]<91:      # Lithopshere mantle
-                    META[ym,xm] = 1.0e24 
-                else:				# Sublithopshere mantle
-                    # META[ym,xm] = 1.0e19 # mantle
+                    META[ym,xm] = ETA_Sticky_Air  
+                elif MI[ym,xm]<11:    # sediment & crust [0,10)
+                    META[ym,xm] = ETA_Crust
+                elif MI[ym,xm]<91:      # Lithopshere mantle [11,91)
+                    META[ym,xm] = ETA_Lit_Mantle 
+                else:				# Sublithopshere mantle (>91)
+                    # META[ym,xm] = 1.0e22 # mantle
                     # META[ym,xm] = main_lit.GetETA(MTK[ym,xm],MPR_LitMod[ym,xm],MEII[ym,xm],method='KW93_Dry')
                     # META[ym,xm] = main_lit.GetETA(MTK[ym,xm],MPR_LitMod[ym,xm],MEII[ym,xm],method='KW93_Wet')
-                    META[ym,xm] = main_lit.GetETA(MTK[ym,xm],MPR_LitMod[ym,xm],MEII[ym,xm],Rheology)
+                    META[ym,xm] = main_lit.GetETA(MTK[ym,xm],MPR_LitMod[ym,xm],MEII[ym,xm],Rheology_Sub_Mantle)
 
-
-        # MRHO[MI<0] = 1000
-        # MTK[MI<0] = 0.0
-        # META[MI<0] = 1.0e18 
-        
-        # META[(MI>=0) & (MI<11)] = 1.0e21
-        # META[(MI>=11) & (MI<91)] = 1.0e22 
-        
-        # META[MI>91] = main_lit.GetETA(MTK[MI>91],MPR_LitMod[MI>91],MEII[MI>91])
-        
         
     etas1 = Interpolation.Griddata((MX, MY), META, (NX, NY), method='MIC', size=0.5)
     etan1 = Interpolation.Griddata((MX, MY), META, (CX, CY), method='MIC_node_in_center')
@@ -473,5 +483,5 @@ for ntimestep in range(stepmax):
         })
 
 endtime = datetime.now()
-print(f'Endtime:    {endtime}')
-print('Total Time:  %f s' %((endtime - starttime).total_seconds()))
+print(f"  End time: {endtime:%Y-%m-%d %H:%M:%S}")
+print('  Total Time:  %f s' %((endtime - starttime).total_seconds()))

@@ -72,7 +72,7 @@ KW93_Wet = {
 
 NE20_Wet = {
     'Power_law': 99,
-    'd' : 1e-2,  # Grain size, 1 mm
+    'd' : 1e-2,  # Grain size, 1 cm
     # Dislocation creep / wet
     'A_dis' : 2.28e-18,  # Pa -3.5 s-1
     'n_dis' : 3.5,  # stress exponent

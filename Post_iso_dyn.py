@@ -13,7 +13,7 @@ from os import system
 from scipy.io import loadmat
 from scipy.interpolate import griddata
 
-plt.style.use('StokesPY/my.mplstyle')
+plt.style.use('my.mplstyle')
 
 
 def font_tick_params(ax):
@@ -94,8 +94,7 @@ norm_MRHO = colors.Normalize(vmin=3250, vmax=3600)
 
 
 #%%
-# file_in = '/home/ictja/ownCloud/PhD_Fig/NorProfile_Fig/2021-12-13_V_F02_5/New09_T2_BestModel/Best_Model'
-file_in = 'D:\wzhang\StokesPY\Zhang_NorthernPro_2024-05-05\Best_Model'
+file_in = 'input/Zhang_etal_2022_NorthPro/Best_Model'
 # 可视化
 grid = plt.GridSpec(nrows=7*3, ncols=2, wspace=0.2, hspace=0.2)
 # plt.figure(figsize = (12, 15/4*7))  
@@ -192,13 +191,13 @@ y_lower = measured_topo[:,1]-topo_Te_interp_nearest - yerr
 ################### 第三个子图的具体排列位置 - Dynamic topograhy
 ax = plt.subplot(grid[2:5, :])
 
-Dytopo = np.loadtxt('D:\wzhang\StokesPY\Zhang_NorthernPro_2024-05-05/' + 'Ext_NE20_R2km/N_Ext_R2km_10.mat_DynaTopo.txt') 
-Dytopo_1 = np.loadtxt('D:\wzhang\StokesPY\Zhang_NorthernPro_2024-05-05/' + 'Ext_NE20_R2km/N_Ext_R2km_10.mat_DynaTopo.txt') 
+Dytopo   = np.loadtxt('Zhang_etal_2022_NorthPro/Sub_mantle_NE20_Wet/N_Ext_9.mat_DynaTopo.txt') 
+Dytopo_1 = np.loadtxt('Zhang_etal_2022_NorthPro/Sub_mantle_NE20_Wet/N_Ext_9.mat_DynaTopo.txt')  
 
 ax.plot(Dytopo_1[:,0] - 200, Dytopo_1[:,1], '-', color='blue', linewidth=1.2, label=label_dyTopo_with)
 
 
-Dytopo_2 = np.loadtxt('D:\wzhang\StokesPY\Zhang_NorthernPro_2024-05-05/' + 'Ext_NE20_R2km_NoSlab/N_Ext_4.mat_DynaTopo.txt')
+Dytopo_2 = np.loadtxt('Zhang_etal_2022_NorthPro/No_slab_Sub_mantle_NE20_Wet/N_Ext_9.mat_DynaTopo.txt')
 ax.plot(Dytopo_2[:,0] - 200, Dytopo_2[:,1], '-', color='black', linewidth=1.2, label=label_dyTopo_without)
 
 
@@ -258,7 +257,9 @@ plt.figure(figsize = (12, 25*1.5))
 ################### 第四个子图的具体排列位置 - Res Vs Dynamic topograhy
 label_Regional_iso = r"Regional isostasy, $h_{isost}$"
 ax = plt.subplot(grid[0:2, :])
-file_in = 'StokesPY/Zhang_SouthernPro_2024-05-05/2023-05-31_15_24_47_Model_F_13_b11'
+
+file_in = 'input/Zhang_etal_2024_SouthPro/Best_Model'
+
 measured_topo = np.loadtxt(file_in + '/0Topo.dat')
 x = measured_topo[:,0]
 y = measured_topo[:,1]
@@ -318,19 +319,19 @@ y_lower = measured_topo[:,1]-topo_Te_interp_nearest - yerr
 
 
 # Dytopo = np.loadtxt('Ext_NE20_R2km/N_Ext_R2km_10.mat_DynaTopo.txt') 
-Dytopo = np.loadtxt('StokesPY/Zhang_SouthernPro_2024-05-05/'+'Ext_NE20_R2km/S_ext_4.mat_DynaTopo.txt') 
+Dytopo = np.loadtxt('Zhang_etal_2024_SouthPro/Sub_mantle_NE20_Wet/S_ext_4.mat_DynaTopo.txt') 
 ax.plot(Dytopo[:,0] - 200, Dytopo[:,1], '-', color='blue', linewidth=1.2, label=label_dyTopo_with)
 
 
-Dytopo = np.loadtxt('StokesPY/Zhang_SouthernPro_2024-05-05/'+'Ext_NE20_R2km_NoSlab/S_ext_4.mat_DynaTopo.txt') 
+Dytopo = np.loadtxt('Zhang_etal_2024_SouthPro/No_slab_Sub_mantle_NE20_Wet/S_ext_4.mat_DynaTopo.txt') 
 ax.plot(Dytopo[:,0] - 200, Dytopo[:,1], '-', color='black', linewidth=1.2, label=label_dyTopo_without)
 
 #Dytopo = np.loadtxt('Ext_NE20_R2km_AttachSlab/S_ext_4.mat_DynaTopo.txt') 
 #ax.plot(Dytopo[:,0] - 200, Dytopo[:,1], '-', color='orange', label=label_dyTopo_BothAttach)
 
 
-Dytopo_1 = np.loadtxt('StokesPY/Zhang_SouthernPro_2024-05-05/'+'Ext_NE20_R2km/S_ext_4.mat_DynaTopo.txt') 
-Dytopo_2 = np.loadtxt('StokesPY/Zhang_SouthernPro_2024-05-05/'+'Ext_NE20_R2km_NoSlab/S_ext_4.mat_DynaTopo.txt') 
+Dytopo_1 = np.loadtxt('Zhang_etal_2024_SouthPro/Sub_mantle_NE20_Wet/S_ext_4.mat_DynaTopo.txt') 
+Dytopo_2 = np.loadtxt('Zhang_etal_2024_SouthPro/No_slab_Sub_mantle_NE20_Wet/S_ext_4.mat_DynaTopo.txt') 
 ax.plot(Dytopo[:,0] - 200, Dytopo_1[:,1] - Dytopo_2[:,1], '-', color='red', label=label_dyTopo_Delta)
 
 
@@ -352,8 +353,8 @@ ax.plot(Dytopo[:,0] - 200, Dytopo_1[:,1] - Dytopo_2[:,1], '-', color='red', labe
 ################### 第四个子图的具体排列位置 - Res Vs Dynamic topography
 
 
-Dytopo_1 = np.loadtxt('StokesPY/Zhang_SouthernPro_2024-05-05/'+'Ext_NE20_R2km/S_ext_4.mat_DynaTopo.txt') 
-Dytopo_2 = np.loadtxt('StokesPY/Zhang_SouthernPro_2024-05-05/'+'Ext_NE20_R2km_NoSlab/S_ext_4.mat_DynaTopo.txt') 
+Dytopo_1 = np.loadtxt('Zhang_etal_2024_SouthPro/Sub_mantle_NE20_Wet/S_ext_4.mat_DynaTopo.txt') 
+Dytopo_2 = np.loadtxt('Zhang_etal_2024_SouthPro/No_slab_Sub_mantle_NE20_Wet/S_ext_4.mat_DynaTopo.txt') 
 # ax.plot(Dytopo[:,0] - 200, (Dytopo_1[:,1] - Dytopo_2[:,1])*1, '-', color='red', label=label_dyTopo_Delta)
 
 # Dytopo = np.loadtxt('Ext_NE20_R2km_Crust=10E23PaS/N_Ext_4.mat_DynaTopo.txt') 

@@ -1,0 +1,14 @@
+# More information from https://github.com/matplotlib/matplotlib/blob/v3.5.1/matplotlibrc.template
+axes.titlesize : 16
+axes.labelsize : 16
+lines.linewidth : 2
+lines.markersize : 10
+xtick.labelsize : 16
+ytick.labelsize : 16
+
+font.size:16
+font.family: Arial
+image.cmap: Spectral_r
+
+
+
