@@ -73,7 +73,7 @@ For each profile:
 
 
 ## Installation
-LitModDyn can be downloaded from the archived Zenodo release or cloned from the GitHub repository.
+LitModDyn can be downloaded from the archived [Zenodo](https://doi.org/10.5281/zenodo.20746376) release or cloned from the GitHub repository.
 The code is compatible with Python 3 and requires the following Python libraries:
 ```text
 numpy
@@ -86,14 +86,16 @@ To reproduce the principal results, an independent user should therefore:
 - Clone or download the archived LitModDyn release.
 - Create a Python 3 environment and install the required external libraries.
 - Confirm that the complete input datasets are present in `input/`.
+- The model geometry, input files, computational domain, and numerical parameters are initialized through: `Zhang_Northern_ext.py` or  `Zhang_Southern_ext.py`.
+- Run `main.py` with `Zhang_Southern_ext.py` activated to reproduce the Stokes solution.  Calculate present-day mantle flow.
+- Use the supplied post-processing scripts `Post_iso_dyn.py`  to calculate and plot the corresponding dynamic-topography results.
+- Compare the results with the reference outputs archived in `Zhang_etal_2022_NorthPro/` and `Zhang_etal_2024_SouthPro/`.
 
 
 ## Citing
 If you use this tool please cite:
 
 Zhang, W., Jiménez-Munt, I., Negredo, A. M., García-Castellanos, D., Ortega Gelabert, O., Vergés, J., Sharma, M., & Torné, M. (2026).  
-LitModDyn: Quantifying dynamic topography induced by slab–mantle interaction beneath the Adria microplate. *Frontiers in Earth Science*. **(in revision)**
+*LitModDyn: Quantifying dynamic topography induced by slab–mantle interaction beneath the Adria microplate*. *Frontiers in Earth Science*. **(in revision)**
 
-Zhang, W., Jiménez-Munt, I., Negredo, A. M., García-Castellanos, D., Ortega Gelabert, O., Vergés, J., Sharma, M., & Torné, M. (2026).  
-*LitModDyn: Quantifying dynamic topography induced by slab–mantle interaction*. Zenodo. https://doi.org/10.5281/zenodo.20746376
 
