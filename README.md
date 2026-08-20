@@ -17,6 +17,7 @@ LitModDyn/
 ├── Solver.py
 ├── Interpolation.py
 ├── Post_iso_dyn.py
+├── plot_nonlinear_convergence.py
 │
 ├── Zhang_Northern_ext.py
 ├── Zhang_Southern_ext.py
@@ -49,8 +50,9 @@ LitModDyn/
 
 `Zhang_Southern_ext.py` – initialization and model configuration for the Southern profile.
 
-`Post_iso_dyn.py` – post-processing routines used to calculate dynamic topography from the LitModDyn results.
+`Post_iso_dyn.py` – post-processing routines used to calculate dynamic topography from the results.
 
+`plot_nonlinear_convergence.py` – Post-processing script for nonlinear Stokes convergence for the results.
 
 ## Input files
 The `input/` directory contains the model files required to initialize the principal simulations presented in the manuscript.
