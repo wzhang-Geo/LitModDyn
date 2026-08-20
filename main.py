@@ -98,7 +98,7 @@ MPR=np.zeros((mynum,mxnum))   # Pressure, Pa
 # MEII=np.ones((mynum,mxnum))   # EPSILONyy - shear strain rate, 1/s
 
 #%%  Modelling Viscisoty setting
-stepmax=10
+stepmax=15
 
 Density_Sticky_Air = 1000.0
 ETA_Sticky_Air = 1.0e18 
@@ -475,7 +475,7 @@ for ntimestep in range(stepmax):
             # 'MSXX': MSXX, 'MSYY': MSYY, 'MSXY': MSXY, 
             # 'MEXX': MEXX, 'MEYY': MEYY, 'MEXY': MEXY,
             'MTK':MTK,
-            # 'MEII':MEII,'MEII0':MEII0,'MPR': MPR,
+            'MEII':MEII,'MEII0':MEII0,'MPR': MPR,
             'file_in': file_in,
             # 'BC_Ext':BC_Ext,
             'measured_topo': measured_topo

@@ -73,8 +73,8 @@ ysize = ysize_Lit
 
 
 # Defining resolution
-xres = 4e3
-yres = 4e3
+xres = 2e3
+yres = 2e3
 xnum = int(xsize/xres)+1
 ynum = int(ysize/yres)+1
 
