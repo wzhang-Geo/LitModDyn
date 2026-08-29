@@ -75,7 +75,7 @@ For each profile:
 
 
 ## Installation
-LitModDyn can be downloaded from the archived [Zenodo](https://doi.org/10.5281/zenodo.20746376) release or cloned from the GitHub repository.
+LitModDyn can be downloaded from the archived [Zenodo](https://doi.org/10.5281/zenodo.22029688) release or cloned from the GitHub repository.
 The code is compatible with Python 3 and requires the following Python libraries:
 ```text
 numpy
